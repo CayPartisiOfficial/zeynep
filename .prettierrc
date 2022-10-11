@@ -1,7 +1,5 @@
 {
 	"arrowParens": "avoid",
 	"bracketSameLine": true,
-	"quoteProps": "consistent",
-	"tabWidth": 4,
-	"useTabs": true
+	"quoteProps": "consistent"
 }
