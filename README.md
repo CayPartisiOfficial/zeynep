@@ -1,16 +1,19 @@
 # zeynep
+
 Mascot and second non-human member of Çay Partisi.
 
 ## Installation
-Clone the repository then create a file name `.env` and fill it properly:
-```
+
+1. Clone the repository then create a file name `.env` and fill it properly:
+
+```sh
 TOKEN=YourDiscordBotTokenHere
 ```
-Compile TypeScript,
-```
-tsc -p . 
-```
-Then run the node project
-```
-node out/main.js
+
+2. Build the bot
+
+```sh
+npm run build     # build only
+npm run now       # build and run. useful for development
+node out/main.js  # run without building, for whatever reason
 ```
