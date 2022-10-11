@@ -6,29 +6,35 @@ import * as env from "./env";
 
 // Reload and update slash commands
 (async () => {
-    const rest = new REST({ version: "10" }).setToken(env.TOKEN);
-    try {
-        console.log("Started refreshing application (/) commands.");
+	const rest = new REST({ version: "10" }).setToken(env.TOKEN);
+	try {
+		console.log("Started refreshing application (/) commands.");
 
-        await rest.put(Routes.applicationCommands("1029453218465456270"), { body: [emoji] });
+		await rest.put(Routes.applicationCommands("1029453218465456270"), {
+			body: [emoji],
+		});
 
-        console.log("Successfully reloaded application (/) commands.");
-    } catch (error) {
-        console.error(error);
-    }
+		console.log("Successfully reloaded application (/) commands.");
+	} catch (error) {
+		console.error(error);
+	}
 })();
 
-const { Guilds, MessageContent, GuildMessages, GuildMembers } = GatewayIntentBits;
-const client = new Client({ intents: [Guilds, MessageContent, GuildMessages, GuildMembers] });
+const { Guilds, MessageContent, GuildMessages, GuildMembers } =
+	GatewayIntentBits;
+
+const client = new Client({
+	intents: [Guilds, MessageContent, GuildMessages, GuildMembers],
+});
 
 client.on("ready", () => {
-    console.log(`Logged in as ${client.user!.tag}`);
+	console.log(`Logged in as ${client.user!.tag}`);
 });
 
 client.on("interactionCreate", async interaction => {
-    if (!interaction.isChatInputCommand()) return;
+	if (!interaction.isChatInputCommand()) return;
 
-    if (interaction.commandName === "emoji") await executeEmoji(interaction);
+	if (interaction.commandName === "emoji") await executeEmoji(interaction);
 });
 
 client.login(env.TOKEN);
