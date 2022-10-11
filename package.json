@@ -5,7 +5,8 @@
 	"scripts": {
 		"build": "tsc",
 		"check": "eslint .",
-		"now": "npm run build && node out/main.js"
+		"now": "npm run build && node out/main.js",
+		"tool": "node tools/main.cjs"
 	},
 	"dependencies": {
 		"@types/node": "^18.8.4",
