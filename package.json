@@ -3,7 +3,8 @@
 	"version": "0.1.0",
 	"main": "src/main.ts",
 	"scripts": {
-		"dev": "tsc -p . && node out/main.js"
+		"build": "tsc",
+		"now": "npm run build && node out/main.js"
 	},
 	"dependencies": {
 		"@types/node": "^18.8.4",
