@@ -1,7 +1,11 @@
 import Logger from "../log";
 
+import EmojiModule from "./emoji";
+
 export const modules: Module[] = [
 	/* don't forget to add new modules here */
+
+	new EmojiModule(),
 ];
 
 export interface Module {
