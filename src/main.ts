@@ -1,4 +1,4 @@
-require("dotenv").config();
+import * as _ from "dotenv";
 
 import { Client, GatewayIntentBits, REST, Routes } from "discord.js";
 import { emoji, execute as executeEmoji } from "./emoji";
@@ -28,6 +28,7 @@ const client = new Client({
 });
 
 client.on("ready", () => {
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	console.log(`Logged in as ${client.user!.tag}`);
 });
 
