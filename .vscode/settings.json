@@ -1,0 +1,12 @@
+{
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"javascript.preferences.importModuleSpecifier": "relative",
+	"typescript.preferences.importModuleSpecifier": "relative",
+	"editor.unicodeHighlight.allowedLocales": {
+		"tr": true
+	},
+	"[dotenv]": {
+		"editor.formatOnSave": false,
+		"editor.defaultFormatter": null
+	}
+}
