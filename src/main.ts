@@ -2,10 +2,11 @@ require("dotenv").config();
 
 import { Client, GatewayIntentBits, REST, Routes } from "discord.js";
 import { emoji, execute as executeEmoji } from "./emoji";
+import * as env from "./env";
 
 // Reload and update slash commands
 (async () => {
-    const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
+    const rest = new REST({ version: "10" }).setToken(env.TOKEN);
     try {
         console.log("Started refreshing application (/) commands.");
 
@@ -30,4 +31,4 @@ client.on("interactionCreate", async interaction => {
     if (interaction.commandName === "emoji") await executeEmoji(interaction);
 });
 
-client.login(process.env.TOKEN);
+client.login(env.TOKEN);
