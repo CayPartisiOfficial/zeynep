@@ -13,6 +13,7 @@ TOKEN=YourDiscordBotTokenHere
 2. Build the bot
 
 ```sh
+npm install       # first time building, required for dependencies
 npm run build     # build only
 npm run now       # build and run. useful for development
 node out/main.js  # run without building, for whatever reason
