@@ -1,0 +1,18 @@
+[package]
+name = "zeynep"
+version = "0.1.0"
+authors = ["Karahan Buhan"]
+edition = "2021"
+description = "Mascot and general purpose discord bot of Çay Partisi."
+readme = "https://github.com/CayPartisiOfficial/zeynep/blob/main/README.md"
+repository = "https://github.com/CayPartisiOfficial/zeynep"
+license = "MIT License"
+
+[dependencies]
+anyhow = "1.0.66"
+rand = "0.8.5"
+serenity = { version = "0.11.5", default-features = false, features = ["builder", "client", "gateway", "http", "model", "utils", "rustls_backend"] }
+tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
+time = "0.3.17"
+tracing = "0.1.37"
+tracing-subscriber = "0.3.16"
