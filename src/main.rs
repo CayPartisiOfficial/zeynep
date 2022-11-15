@@ -1,6 +1,4 @@
-use std::time::Duration;
-
-use rand::Rng;
+use anyhow::Result;
 use serenity::async_trait;
 use serenity::client::ClientBuilder;
 use serenity::model::application::interaction::{Interaction, InteractionResponseType};
@@ -8,10 +6,26 @@ use serenity::model::gateway::{GatewayIntents, Ready};
 use serenity::model::prelude::command::Command;
 use serenity::model::prelude::{GuildId, RoleId};
 use serenity::prelude::{Context, EventHandler};
-use tokio::{task, time};
 use tracing::{error, info};
 
+use crate::cotd::Cotd;
+
 mod commands;
+mod cotd;
+
+trait ResultTraceErr {
+    fn trace_err(self) -> Self;
+}
+
+impl<T> ResultTraceErr for Result<T> {
+    /// If result is an error, traces it and returns Option
+    fn trace_err(self) -> Self {
+        if let Err(err) = &self {
+            error!("{}", err);
+        }
+        self
+    }
+}
 
 struct Handler {}
 
@@ -32,37 +46,14 @@ impl EventHandler for Handler {
                 .expect("ROLE_ID must be a number"),
         );
 
+        Cotd::start(ctx.http.clone(), guild_id, role_id).await;
+
         let _commands = Command::create_global_application_command(&ctx.http, |command| {
             commands::ping::register(command)
         })
         .await
         .expect("Could not register commands!");
-
         info!("Slash commands are registered");
-
-        // Update member role colour every hour to something random
-        task::spawn(async move {
-            let mut interval = time::interval(Duration::from_secs(3600));
-            interval.tick().await; // First tick completes immediately
-
-            loop {
-                interval.tick().await;
-
-                let result = GuildId::edit_role(guild_id, &ctx.http, &role_id, |role| {
-                    role.colour(rand::thread_rng().gen_range(0..16777215))
-                })
-                .await;
-
-                match result {
-                    Ok(_) => {
-                        info!("Successfully changed the colour of hour")
-                    }
-                    Err(err) => {
-                        error!("Could not change colour of hour: {}", err)
-                    }
-                }
-            }
-        });
     }
 
     async fn interaction_create(&self, ctx: Context, interaction: Interaction) {
