@@ -18,7 +18,7 @@ trait ResultTraceErr {
 }
 
 impl<T> ResultTraceErr for Result<T> {
-    /// If result is an error, traces it and returns Option
+    /// If result is an error, traces it and returns self
     fn trace_err(self) -> Self {
         if let Err(err) = &self {
             error!("{}", err);
