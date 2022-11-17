@@ -7,8 +7,6 @@ use serenity::prelude::EventHandler;
 use serenity::{async_trait, prelude};
 use tracing::{error, info};
 
-use crate::cotd::Cotd;
-
 mod commands;
 mod cotd;
 
@@ -37,7 +35,7 @@ impl EventHandler for Handler {
         info!("Logged as {}", event.user.name);
 
         commands::register_slash_commands(ctx.http.clone()).await;
-        Cotd::start(ctx.http, self.guild_id, self.role_id).await;
+        cotd::start(ctx.http, self.guild_id, self.role_id).await;
     }
 
     async fn interaction_create(&self, ctx: prelude::Context, interaction: Interaction) {

@@ -14,12 +14,10 @@ use tracing::info;
 use crate::ResultTraceErr;
 
 pub async fn start(http: Arc<Http>, guild_id: GuildId, role_id: RoleId) {
-    let mut colour = generate_random_colour();
     let mut last_change = DayOfMonth::from_file_or_now(".cotd").await;
 
     tokio::task::spawn(async move {
         info!("Colour of the Day is started");
-
         let mut interval = tokio::time::interval(Duration::from_secs(600));
         loop {
             interval.tick().await;
@@ -30,10 +28,8 @@ pub async fn start(http: Arc<Http>, guild_id: GuildId, role_id: RoleId) {
                 continue;
             }
 
-            colour = generate_random_colour();
-
             if guild_id
-                .edit_role(&http, role_id, |role| role.colour(colour.0 as u64))
+                .edit_role(&http, role_id, |role| role.colour(generate_random_colour()))
                 .await
                 .context("Cannot edit role")
                 .trace_err()
@@ -41,19 +37,18 @@ pub async fn start(http: Arc<Http>, guild_id: GuildId, role_id: RoleId) {
             {
                 last_change = now;
                 last_change.save_to_file(".cotd").await.trace_err().ok();
+                info!("Changed colour of the day");
             }
-
-            info!("Updated colour of the day to 0x{}", colour.hex());
         }
     });
 }
 
-fn generate_random_colour() -> Colour {
+fn generate_random_colour() -> u64 {
     let colour = Colour(rand::thread_rng().gen_range(0..16777216));
     let lum = 0.299 * colour.r() as f32 + 0.587 * colour.g() as f32 + 0.114 * colour.b() as f32;
 
     if lum > 150.0 {
-        colour
+        colour.0 as u64
     } else {
         generate_random_colour()
     }
